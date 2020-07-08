@@ -1,0 +1,49 @@
+# name = Username
+# id = Component id
+type User{
+    name: String
+    id: Int
+    icon: String
+    selfComment: String
+    level: Int
+    exp: Int
+    date: String    
+}
+
+type Icon{
+    imgId: Int
+    name: String
+    imgUrl: String
+}
+
+type Post{
+    title: String
+    id: Int
+    content: String
+    author: String
+    date: String
+
+}
+
+type Comment{
+    id: Int
+    author: String
+    content: String
+    date: String
+
+}
+
+type Query{
+    mostRecentPost: [Post]
+    searchUser(name:String): User
+    selectPost(id:Int): Post
+    searchPost(name:String) [Post]
+    searchComment(name:String): [Comment]
+    searchAllComment: [Comment]
+    searchIcon(name:String): [icon]
+}
+
+type Mutation{
+    join(id:String!,pw:String!,name:String!): Boolean
+    login(id:String!,pw:String!): String
+}
