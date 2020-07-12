@@ -4,10 +4,9 @@ import { Route, Link, Switch } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
 
-import HomePage from './components/home/homepage';
-import LoginForm from './components/login/login';
-import SignUpForm from './components/signup/signup';
-import './App.css';
+import HomePage from './pages/home';
+import LoginForm from './pages/login';
+import SignUpForm from './pages/signup';
 
 
 
