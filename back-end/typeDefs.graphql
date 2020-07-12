@@ -1,5 +1,3 @@
-# name = Username
-# id = Component id
 type User{
     name: String
     id: Int
@@ -14,7 +12,10 @@ type Icon{
     imgUrl: String
 }
 
+type Query{
+    dummy:String
+}
+
 type Mutation{
-    join(id:String!,pw:String!,name:String!): String
-    login(id:String!,pw:String!): String
+    join(id:String,pw:String,name:String): String
 }
