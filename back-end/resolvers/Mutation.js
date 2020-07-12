@@ -8,8 +8,8 @@ module.exports = {
     join: async(parent,args,{ db }) => {
         const check1 = await db.collection('user').findOne({title:args.id})
         const check2 = await db.collection('user').findOne({title:args.name})
-        if(check1 != null || stringCheck(args.id)) return "id에 오류가 있습니다."
-        if(check2 != null || stringCheck(args.name)) return "name에 오류가 있습니다."
+        if(check1 != null || !stringCheck(args.id)) return "id에 오류가 있습니다."
+        if(check2 != null || !stringCheck(args.name)) return "name에 오류가 있습니다."
         if(args.pw < 7) return "pw에 오류가 있습니다."
         let seed = Math.round((new Date().valueOf() * Math.random())) + "";
         const user = [{
