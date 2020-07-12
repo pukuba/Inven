@@ -19,8 +19,8 @@ import './signup.css';
 function SignUpForm() {
   // from https://www.w3schools.com/howto/howto_css_signup_form.asp
     return (
-      <form class="signup-form">
-      <div class="container">
+      <form className="signup-form">
+      <div className="container">
         <h1>Sign Up</h1>
         <p>Please fill in this form to create an account.</p>
         <hr/>
@@ -40,9 +40,9 @@ function SignUpForm() {
     
         {/* <p>By creating an account you agree to our <a href="/">Terms & Privacy</a>.</p> */}
     
-        <div class="clearfix">
-          <button type="button" class="cancelbtn">Cancel</button>
-          <button type="submit" class="signupbtn">Sign Up</button>
+        <div className="clearfix">
+          <button type="button" className="cancelbtn">Cancel</button>
+          <button type="submit" className="signupbtn">Sign Up</button>
         </div>
       </div>
     </form>

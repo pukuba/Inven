@@ -21,12 +21,12 @@ import logo from './../logo.svg';
 function LoginForm() {
   // from https://www.w3schools.com/howto/howto_css_login_form.asp
     return (
-    <form method="post" class="login-form">
-    <div class="imgcontainer">
+    <form method="post" className="login-form">
+    <div className="imgcontainer">
       <img src={logo} className="App-logo" alt="logo"/>
     </div>
   
-    <div class="container">
+    <div className="container">
       <label for="uname"><b>Username</b></label>
       <input type="text" placeholder="Enter Username" name="uname" required/>
   
@@ -39,9 +39,9 @@ function LoginForm() {
       </label>
     </div>
   
-    <div class="container bottom-buttons-container">
-      <button type="button" class="cancelbtn">Cancel</button>
-      <span class="psw">Forgot <a href="/">password?</a></span>
+    <div className="container bottom-buttons-container">
+      <button type="button" className="cancelbtn">Cancel</button>
+      <span className="psw">Forgot <a href="/">password?</a></span>
     </div>
   </form>
     );
