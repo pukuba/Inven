@@ -13,7 +13,7 @@ type Icon{
 }
 
 type Query{
-    dummy:String
+    session: Boolean
 }
 
 type Mutation{

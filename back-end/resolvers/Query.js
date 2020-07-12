@@ -1,4 +1,4 @@
 
 module.exports = {
-    dummy:() => "dummy"
+    session: async(parent, args,{ db,session }) => session.status == "Login"
 }
