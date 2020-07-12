@@ -19,7 +19,7 @@ import './signup.css';
 function SignUpForm() {
   // from https://www.w3schools.com/howto/howto_css_signup_form.asp
     return (
-      <form >
+      <form class="signup-form">
       <div class="container">
         <h1>Sign Up</h1>
         <p>Please fill in this form to create an account.</p>

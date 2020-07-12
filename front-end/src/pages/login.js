@@ -21,7 +21,7 @@ import logo from './../logo.svg';
 function LoginForm() {
   // from https://www.w3schools.com/howto/howto_css_login_form.asp
     return (
-    <form method="post">
+    <form method="post" class="login-form">
     <div class="imgcontainer">
       <img src={logo} className="App-logo" alt="logo"/>
     </div>
