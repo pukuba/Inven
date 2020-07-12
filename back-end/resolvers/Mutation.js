@@ -6,8 +6,8 @@ const stringCheck = (x) => ('0' <= x && x <= '9' || 'a' <= x && x <= 'z' || 'A' 
 
 module.exports = {
     join: async(parent,args,{ db }) => {
-        const check1 = await db.collection('user').findOne({title:args.id})
-        const check2 = await db.collection('user').findOne({title:args.name})
+        const check1 = await db.collection('user').findOne({id:args.id})
+        const check2 = await db.collection('user').findOne({name:args.name})
         if(check1 != null || !stringCheck(args.id)) return "id에 오류가 있습니다."
         if(check2 != null || !stringCheck(args.name)) return "name에 오류가 있습니다."
         if(args.pw < 7) return "pw에 오류가 있습니다."
@@ -21,7 +21,7 @@ module.exports = {
             icon:1,
             seed:seed
         }]
-        await db.collection('Inven').insertMany(user)
+        await db.collection('user').insertMany(user)
         return "true"
     }
 
