@@ -6,6 +6,7 @@ const { MongoClient } = require('mongodb')
 const path = require('path')
 require('dotenv').config()
 
+const session = {name:"NULL",status:"Logout"}
 const resolvers = require('./resolvers')
 const typeDefs = readFileSync('./typeDefs.graphql', 'utf-8')
 
@@ -24,7 +25,7 @@ async function start(){
         typeDefs,
         resolvers,
         context: async() => {
-            return {db}
+            return {db,session}
         }
         
     })
