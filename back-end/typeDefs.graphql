@@ -14,12 +14,7 @@ type Icon{
     imgUrl: String
 }
 
-type Query{
-    idCheck(id:String!): Boolean!
-    pwCheck(pw:String!): Boolean!
-    nameCheck(name:String!): Boolean!
-}
 type Mutation{
-    join(id:String!,pw:String!,name:String!,check:Boolean): Boolean
+    join(id:String!,pw:String!,name:String!): String
     login(id:String!,pw:String!): String
 }
