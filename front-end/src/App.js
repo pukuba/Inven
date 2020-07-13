@@ -7,6 +7,7 @@ import './App.css';
 import HomePage from './pages/home';
 import LoginForm from './pages/login';
 import SignUpForm from './pages/signup';
+import NotFound from './pages/notfound';
 
 
 
@@ -40,6 +41,7 @@ function App() {
         <Route path="/" exact="true" component ={HomePage}/>
         <Route path="/login" exact="true" component ={LoginForm}/>
         <Route path="/signup" exact="true" component ={SignUpForm}/>
+        <Route component={NotFound} />
       </Switch>
       {Footer()}
     </div>
