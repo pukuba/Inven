@@ -1,41 +1,46 @@
 // App.js
 import React from 'react';
-import { Route, Link, Switch } from 'react-router-dom';
-import logo from './logo.svg';
+import { HashRouter as Router } from 'react-router-dom';
+// import logo from './logo.svg';
 import './App.css';
+import {gql} from "apollo-boost";
+import { useQuery } from 'react-apollo-hooks';
+import Routes from './Components/Routes';
 
-import HomePage from './pages/home';
-import LoginForm from './pages/login';
-import SignUpForm from './pages/signup';
-import NotFound from './pages/notfound';
+const CHECK = gql`
+  {
+    check @client
+  }
+`
 
+// function Navigator() {
 
+// }
 
-function Navigator() {
+// function Header() {
+//   return (
+//       <header className="App-header">
+//         <Link to="/">
+//         <img src={logo} className="App-logo" alt="logo"/>
+//         </Link>
+//         <p>Inven</p>
+//       </header>
+//       )
+// }
 
-}
+// function Footer() {
 
-function Header() {
-  return (
-      <header className="App-header">
-        <Link to="/">
-        <img src={logo} className="App-logo" alt="logo"/>
-        </Link>
-        <p>Inven</p>
-      </header>
-      )
-}
-
-function Footer() {
-
-}
+// }
 
 
 
 function App() {
+  const {
+    data: {check}
+  } = useQuery(CHECK)
   return (
     <div className="App">
-      {Header()}
+      {/* {Header()}
       {Navigator()}
       <Switch>
         <Route path="/" exact="true" component ={HomePage}/>
@@ -43,7 +48,10 @@ function App() {
         <Route path="/signup" exact="true" component ={SignUpForm}/>
         <Route component={NotFound} />
       </Switch>
-      {Footer()}
+      {Footer()} */}
+      <Router>
+        <Routes check={check}></Routes>
+      </Router>
     </div>
   )
 }
