@@ -19,7 +19,7 @@ const resolvers = {
 }
 
 export default new ApolloClient({
-    uri: "http://localhost:4000",
+    uri: "http://localhost:4444/graphql",
     clientState: {
         defaults,
         resolvers
