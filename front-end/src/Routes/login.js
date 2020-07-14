@@ -73,6 +73,7 @@ function Login() {
           data: {login: token}
         } = await loginMutation();
         if(token !== "" || token !== undefined) {
+          console.log("token : " + token)
           tokenLoginMutation({variables: {token}});
           setTimeout(() => {
             window.location.reload()

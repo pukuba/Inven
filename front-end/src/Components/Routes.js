@@ -2,8 +2,8 @@ import React from "react"
 import PropTypes from "prop-types"
 import {Switch, Route} from "react-router-dom"
 import Main from "../Routes/Main"
-import Login from "../pages/login"
-import SignUp from "../pages/signup"
+import Login from "../Routes/login"
+import SignUp from "../Routes/signup"
 // import NotFound from "../pages/notfound"
 
 
