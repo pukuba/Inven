@@ -1,4 +1,4 @@
-const { ApolloServer } = require('apollo-server-express')
+const { ApolloServer, AuthenticationError } = require('apollo-server-express')
 const express = require('express')
 const expressPlayground = require('graphql-playground-middleware-express').default
 const { readFileSync } = require('fs')
@@ -6,7 +6,6 @@ const { MongoClient } = require('mongodb')
 const path = require('path')
 require('dotenv').config()
 
-const session = {name:"NULL",status:"Logout"}
 const resolvers = require('./resolvers')
 const typeDefs = readFileSync('./typeDefs.graphql', 'utf-8')
 
@@ -24,10 +23,11 @@ async function start(){
     const server = new ApolloServer({
         typeDefs,
         resolvers,
-        context: async() => {
-            return {db,session}
+        context: async({ req }) => {
+            const token = req.headers.authorization || ''
+            if(!token) return {db,token:null}
+            return {db,token}
         }
-        
     })
     server.applyMiddleware({ app })
     app.use(express.static(path.join(__dirname,'models')))
