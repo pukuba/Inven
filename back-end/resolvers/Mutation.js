@@ -1,4 +1,5 @@
 const crypto = require('crypto');
+const { SSL_OP_NO_SESSION_RESUMPTION_ON_RENEGOTIATION } = require('constants');
 
 const makePw = (x,y) => crypto.createHash("sha512").update(x + y).digest("hex");
 
@@ -15,6 +16,7 @@ module.exports = {
             id:args.id,
             pw:makePw(args.pw,seed),
             name:args.name,
+            money:0,
             level:1,
             exp:0,
             icon:1,
@@ -33,5 +35,11 @@ module.exports = {
             return true
         }
         return false
+    },
+
+    logout: async(parent, args,{ db,session }) => {
+        session.status = "Logout"
+        session.name = "NULL"
+        return true
     }
 }
