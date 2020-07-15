@@ -3,7 +3,7 @@ import AuthInput from '../Components/AuthInput';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';
 import { useHistory } from 'react-router-dom';
-import useInput from '../hooks/useInput';
+import useInput from '../hooks/UseInput';
 
 
 const SIGN_UP = gql`

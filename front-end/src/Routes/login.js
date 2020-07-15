@@ -2,7 +2,7 @@ import React from 'react';
 import logo from './../logo.svg';
 import { useMutation } from 'react-apollo-hooks';
 import styled from 'styled-components';
-import useInput from '../hooks/useInput';
+import useInput from '../hooks/UseInput';
 import AuthInput from '../Components/AuthInput';
 import AuthButton from '../Components/AuthButton';
 import Title from '../Components/Title';
