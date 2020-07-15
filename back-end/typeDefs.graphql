@@ -4,6 +4,7 @@ type User{
     icon: String
     level: Int
     exp: Int
+    money: Int
 }
 
 type Icon{
@@ -13,10 +14,12 @@ type Icon{
 }
 
 type Query{
-    session: Boolean
+    token: String
+    buyMoney(price:Int): Boolean
 }
 
 type Mutation{
     join(id:String, pw:String, name:String): String
-    login(id:String, pw:String): Boolean
+    login(id:String, pw:String): String
+    logout: Boolean
 }

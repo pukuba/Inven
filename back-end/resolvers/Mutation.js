@@ -15,23 +15,30 @@ module.exports = {
             id:args.id,
             pw:makePw(args.pw,seed),
             name:args.name,
+            money:0,
             level:1,
             exp:0,
             icon:1,
-            seed:seed
+            seed:seed,
+            token:null
         }]
         await db.collection('user').insertMany(user)
         return "true"
     },
 
-    login: async(parent, args,{ db,session }) => {
+    login: async(parent, args,{ db,token }) => {
         const id = args.id, pw = args.pw, info = await db.collection('user').findOne({id:args.id})
         if(info === null) return false
         if(args.id == info.id && info.pw == makePw(args.pw,info.seed)){
-            session.name = info.name
-            session.status = "Login"
-            return true
+            let seed = Math.round((new Date().valueOf() * Math.random())) + "";
+            await db.collection('user').update({id:args.id},{$set:{'token':seed}})
+            return seed
         }
-        return false
+        return null
+    },
+
+    logout: async(parent, args,{ db,token }) => {
+        await db.collection('user').update({token:token},{$set:{'token':null}})
+        return true
     }
 }
