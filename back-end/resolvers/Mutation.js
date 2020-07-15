@@ -40,5 +40,15 @@ module.exports = {
     logout: async(parent, args,{ db,token }) => {
         await db.collection('user').update({token:token},{$set:{'token':null}})
         return true
+    },
+
+    create: async(parent, args,{ db,token }) =>{
+        if(token == null) return false
+        const user = db.collection('user').findOne({token:token})
+        let info = [{
+
+        }]
+        await db.collection('post').insertMany() 
     }
+
 }
