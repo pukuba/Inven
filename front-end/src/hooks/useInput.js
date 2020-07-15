@@ -8,8 +8,6 @@ export default defaultValue => {
             target: {value}
         } = e;
         setValue(value)
-        // setValue(e.target.value)
-        console.log(e.target)
     }
 
     return {value, onChange, setValue}
