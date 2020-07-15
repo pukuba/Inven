@@ -8,7 +8,8 @@ var iamport = new Iamport({
 
 module.exports = {
     token: async(parent, args,{ db,token }) => token != null,
-    buyMoney: async(parent,args,{ db,session }) => {
-        console.log(iamport.subscribe.sbcr_onetime)
+    buyMoney: async(parent,args,{ db,token }) => {
+        if(token == null) return false
+
     }
 }
