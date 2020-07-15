@@ -61,20 +61,23 @@ function Login() {
       pw: pwInput.value,
     }
   })
-  
   const [tokenLoginMutation] = useMutation(TOKENLOGIN)
-
+  
+  
   const onSubmit = async e => {
     e.preventDefault();
     if(idInput.value !== "" &&
-        pwInput.value !== ""){
+    pwInput.value !== ""){
       try {
         const {
-          data: {login: token}
-        } = await loginMutation();
-        if(token !== "" || token !== undefined) {
+          data: {login: login_result}
+        } = await loginMutation()
+        
+        console.log(login_result)
+        const token = "test_token"// 토큰값을 백엔드에서 받아와야함
+        if(login_result === true) {
           console.log("token : " + token)
-          tokenLoginMutation({variables: {token}});
+          tokenLoginMutation({variables: {token}})
           setTimeout(() => {
             window.location.reload()
           }, 2000)
@@ -98,10 +101,10 @@ function Login() {
           </div>
 
           <div className="container">
-            <label for="uname"><b>Username</b></label>
+            <label><b>Username</b></label>
             <AuthInput placeholder={"ID"} {...idInput}></AuthInput>
 
-            <label for="psw"><b>Password</b></label>
+            <label><b>Password</b></label>
             <AuthInput placeholder={"Password"} {...pwInput} type={"password"}></AuthInput>
 
             <AuthButton text="Login"></AuthButton>
