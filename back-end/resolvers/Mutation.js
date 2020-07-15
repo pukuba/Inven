@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-
+require('date-utils')
 const makePw = (x,y) => crypto.createHash("sha512").update(x + y).digest("hex");
 
 const stringCheck = (x) => ('0' <= x && x <= '9' || 'a' <= x && x <= 'z' || 'A' <= x && x <= 'Z') 
@@ -44,11 +44,18 @@ module.exports = {
 
     create: async(parent, args,{ db,token }) =>{
         if(token == null) return false
-        const user = db.collection('user').findOne({token:token})
-        let info = [{
-
+        const cnt = await db.collection('post').find().sort({"id":-1}).limit(1).toArray()
+        const user = await db.collection('user').findOne({token:token})
+        let newDate = new Date()
+        let posts = [{
+            id: cnt[0] ? cnt[0].id+1 : 1,
+            content: args.content,
+            author: user.name,
+            date: newDate.toFormat('YYYY-MM-DD HH24:MI:SS'),
+            type:args.type
         }]
-        await db.collection('post').insertMany() 
+        await db.collection('post').insertMany(posts) 
+        return true
     }
 
 }

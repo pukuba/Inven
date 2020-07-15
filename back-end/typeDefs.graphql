@@ -20,7 +20,7 @@ type Query{
 
 type Mutation{
     join(id:String, pw:String, name:String): String
-    login(id:String, pw:String): String
+    login(id:String, pw:String): String 
     logout: Boolean
-    create: Boolean
+    create(content:String!, type:Int!): Boolean
 }
