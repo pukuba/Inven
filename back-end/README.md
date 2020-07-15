@@ -38,12 +38,8 @@
 
 > null
 
-### 2-3. `logout(token: token): Boolean`
+### 2-3. `logout: Boolean`
 
 정상 처리결과
 
 > true
-
-비정상 처리결과
-
-> false
