@@ -69,18 +69,19 @@ function Login() {
     if(idInput.value !== "" &&
     pwInput.value !== ""){
       try {
+        const result = await loginMutation()
         const {
-          data: {login: login_result}
-        } = await loginMutation()
+          data : {login: token}
+        } = result
         
-        console.log(login_result)
-        const token = "test_token"// 토큰값을 백엔드에서 받아와야함
-        if(login_result === true) {
-          console.log("token : " + token)
+        if(token !== "false" && token !== undefined) {
           tokenLoginMutation({variables: {token}})
           setTimeout(() => {
             window.location.reload()
           }, 2000)
+        }
+        else{
+          alert("잘못된 아이디 또는 비밀번호입니다.")
         }
       } catch (error) {
         console.log(error)
@@ -93,7 +94,6 @@ function Login() {
   return (
     <Wrapper>
       <Container>
-        {/*  TODO : onSubmit */}
         <Title title="LINBAN"></Title>
         <form className="login-form" onSubmit={onSubmit}>
           <div className="imgcontainer">
