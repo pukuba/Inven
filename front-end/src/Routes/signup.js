@@ -1,5 +1,4 @@
 import React from 'react';
-import './signup.css';
 import AuthInput from '../Components/AuthInput';
 import { gql } from 'apollo-boost';
 import { useMutation } from 'react-apollo-hooks';

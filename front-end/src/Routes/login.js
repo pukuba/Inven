@@ -1,5 +1,4 @@
 import React from 'react';
-import './login.css';
 import logo from './../logo.svg';
 import { useMutation } from 'react-apollo-hooks';
 import styled from 'styled-components';
