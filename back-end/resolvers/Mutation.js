@@ -62,6 +62,7 @@ module.exports = {
         let newDate = new Date()
         let posts = [{
             id: cnt[0] ? cnt[0].id+1 : 1,
+            title: args.title,
             content: args.content,
             author: user.name,
             date: newDate.toFormat('YYYY-MM-DD HH24:MI:SS'),

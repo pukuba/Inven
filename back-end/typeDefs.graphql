@@ -14,14 +14,25 @@ type Icon{
     imgUrl: String
 }
 
+type Post{
+    title: String
+    author: String
+    date: String
+    id: Int
+    content: String
+    type: Int
+}
+
 type Query{
     token: String
     buyMoney(price:Int): Boolean
+    latest: [Post]
+    userPost(author:String): [Post]
 }
 
 type Mutation{
     join(id:String!, pw:String!, name:String!): String
     login(id:String!, pw:String!): String 
     logout: Boolean
-    create(content:String!, type:Int!): Boolean
+    create(title:String!, content:String!, type:Int!): Boolean
 }
