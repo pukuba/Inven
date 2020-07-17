@@ -8,8 +8,6 @@ var iamport = new Iamport({
 
 module.exports = {
     token: async(parent, args,{ db,token }) => token != null,
-    buyMoney: async(parent,args,{ db,token }) => {
-        if(token == null) return false
-
-    }
+    latest: async(parent, args,{ db, token}) => db.collection('post').find().sort({"date":-1}).toArray(),
+    userPost: async(parent, args,{ db, token}) => db.collection('post').find({"author":args.author}).toArray(),
 }
