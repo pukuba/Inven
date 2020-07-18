@@ -44,8 +44,8 @@ function App() {
       {Navigator()}
       <Switch>
         <Route path="/" exact="true" component ={HomePage}/>
-        <Route path="/login" exact="true" component ={LoginForm}/>
-        <Route path="/signup" exact="true" component ={SignUpForm}/>
+        <Route path="/Login" exact="true" component ={LoginForm}/>
+        <Route path="/Signup" exact="true" component ={SignUpForm}/>
         <Route component={NotFound} />
       </Switch>
       {Footer()} */}
