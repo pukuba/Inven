@@ -1,7 +1,7 @@
 import React from "react"
 
-import { gql } from "apollo-boost"
-import { useMutation } from 'react-apollo-hooks'
+import { useMutation } from '@apollo/react-hooks'
+import gql from 'graphql-tag'
 
 
 const TOKENLOGOUT = gql`
@@ -19,7 +19,6 @@ export default () => {
 
     const [logoutMutation] = useMutation(LOGOUT)
     const [tokenLogoutMutation] = useMutation(TOKENLOGOUT)
-
     const handleClick = () => {
         try {
             logoutMutation()

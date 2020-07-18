@@ -1,7 +1,7 @@
 import React from 'react';
 import AuthInput from '../Components/AuthInput';
-import { gql } from 'apollo-boost';
-import { useMutation } from 'react-apollo-hooks';
+import { useMutation } from '@apollo/react-hooks';
+import gql from 'graphql-tag'
 import { useHistory } from 'react-router-dom';
 import useInput from '../hooks/UseInput';
 

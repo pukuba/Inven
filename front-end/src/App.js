@@ -1,10 +1,10 @@
 // App.js
 import React from 'react';
-import { HashRouter as Router } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 // import logo from './logo.svg';
 import './App.css';
-import {gql} from "apollo-boost";
-import { useQuery } from 'react-apollo-hooks';
+import { useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 import Routes from './Components/Routes';
 
 const CHECK = gql`
@@ -49,9 +49,9 @@ function App() {
         <Route component={NotFound} />
       </Switch>
       {Footer()} */}
-      <Router>
+      <HashRouter>
         <Routes check={check}></Routes>
-      </Router>
+      </HashRouter>
     </div>
   )
 }

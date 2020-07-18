@@ -1,13 +1,13 @@
 import React from 'react';
 import logo from './../logo.svg';
-import { useMutation } from 'react-apollo-hooks';
+import { useMutation } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 import styled from 'styled-components';
 import useInput from '../hooks/UseInput';
 import AuthInput from '../Components/AuthInput';
 import AuthButton from '../Components/AuthButton';
 import Title from '../Components/Title';
 import { Link } from 'react-router-dom';
-import { gql } from 'apollo-boost';
 
 const LOGIN = gql`
   mutation login($id: String!, $pw: String!){
