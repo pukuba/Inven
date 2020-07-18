@@ -9,16 +9,24 @@ const TOKENLOGOUT = gql`
     logUserOut(__:$__) @client
   }
 `
+const LOGOUT = gql`
+    mutation logout{
+        logout
+    }
+`
 
 export default () => {
+
+    const [logoutMutation] = useMutation(LOGOUT)
     const [tokenLogoutMutation] = useMutation(TOKENLOGOUT)
 
     const handleClick = () => {
         try {
-        tokenLogoutMutation()
-        setTimeout(() => {
-        window.location.reload()
-        }, 2000)
+            logoutMutation()
+            tokenLogoutMutation()
+            setTimeout(() => {
+            window.location.reload()
+            }, 2000)
         } catch(error){
             console.log(error)
         }
