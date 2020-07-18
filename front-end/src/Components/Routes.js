@@ -4,7 +4,7 @@ import {Switch, Route} from "react-router-dom"
 import Main from "../Routes/Main"
 import Login from "../Routes/Login"
 import SignUp from "../Routes/Signup"
-// import NotFound from "../pages/notfound"
+import NotFound from "../Routes/Notfound"
 
 
 const LogIn = () => (
@@ -15,10 +15,9 @@ const LogIn = () => (
 
 const LogOut = () => (
     <Switch>
-        {/* <Route exact path="/" component={Auth} /> */}
         <Route exact path="/" component={Login} />
         <Route exact path="/Signup" component={SignUp} />
-        {/* <Route component={NotFound}></Route> */}
+        <Route component={NotFound}/>
     </Switch>
 )
 
