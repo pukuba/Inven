@@ -2,7 +2,7 @@
 
 ## 0. Models
 
-###  0-1 User
+###  0-1 `User`
 > name:String (닉네임)
 >
 > id:String (아이디)
@@ -17,14 +17,14 @@
 >
 > latest:String (마지막 접속시간)
 
-### 0-2 Icon
+### 0-2 `Icon`
 > imgId:Int (이미지 아이디)
 >
 > name:String (이미지 이름)
 >
 > imgUrl:String (이미지 주소)
 
-### 0-3 Post
+### 0-3 `Post`
 >title: String (제목)
 >
 >author: String (작성자)
@@ -40,19 +40,19 @@
 
 ## 1. Mutation-User
 
-### 1-1 join (id:String!, pw:String!, name:String!): String
+### 1-1 `join (id:String!, pw:String!, name:String!): String`
 > 문자열을 반환합니다
 >> 정상적으로 회원가입이 이루어진 경우 "true"를 반환합니다.
 >>
 >> 회원가입이 이루어지지 않은 경우 error message를 반환합니다.
 
-### 1-2 login (id:String!, pw:String!): String
+### 1-2 `login` (id:String!, pw:String!): String
 > 문자열을 반환합니다
 >> 정상적으로 로그인이 이루어진 경우 token값을 반환합니다.
 >>
 >> 로그인이 이루어지지 않은 경우 null을 반환합니다.
 
-### 1-3 logout: Boolean
+### 1-3 `logout: Boolean`
 > 참, 거짓을 반환합니다
 >> 로그아웃한 경우 true를 반환합니다
 
