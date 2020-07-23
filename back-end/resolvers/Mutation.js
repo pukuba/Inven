@@ -1,5 +1,4 @@
 const crypto = require('crypto');
-const { SSL_OP_NETSCAPE_CA_DN_BUG } = require('constants');
 require('date-utils')
 const makePw = (x,y) => crypto.createHash("sha512").update(x + y).digest("hex");
 
@@ -39,15 +38,15 @@ module.exports = {
         if(info === null) return false
         if(args.id == info.id && info.pw == makePw(args.pw,info.seed)){
             let token = Math.round((new Date().valueOf() * Math.random())) + "";
-            await db.collection('user').update({id:args.id},{$set:{'token':token}})
+            await db.collection('user').updateMany({id:args.id},{$set:{'token':token}})
             if(time[8]+time[9] != info.latest[8]+info.latest[9]){
-                await db.collection('user').update({id:args.id},{$set:{'latest' : time}})
-                await db.collection('user').udpate({id:args.id},{$set:{'exp':info.exp+50}})
+                await db.collection('user').updateMany({id:args.id},{$set:{'latest' : time}})
+                await db.collection('user').updateMany({id:args.id},{$set:{'exp':info.exp+50}})
                 info = await db.collection('user').findOne({id:args.id})
                 ep = Math.round(100 * Math.pow(1.5,info.level-1))
                 if(info.exp >= ep){
-                    await db.collection('user').update({id:args.id},{$set:{'level' : info.level+1}})
-                    await db.collection('user').update({id:args.id},{$set:{'exp' : exp-ep}})
+                    await db.collection('user').updateMany({id:args.id},{$set:{'level' : info.level+1}})
+                    await db.collection('user').updateMany({id:args.id},{$set:{'exp' : exp-ep}})
                 }
             }
             return token
@@ -56,7 +55,7 @@ module.exports = {
     },
 
     logout: async(parent, args,{ db,token }) => {
-        await db.collection('user').update({token:token},{$set:{'token':null}})
+        await db.collection('user').updateMany({token:token},{$set:{'token':null}})
         return true
     },
 
@@ -75,6 +74,7 @@ module.exports = {
         }]
         await db.collection('post').insertMany(posts) 
         return true
-    }
+    }, 
 
+    
 }
