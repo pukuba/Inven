@@ -12,9 +12,11 @@
         "fs": "0.0.1-security",
         "graphql-playground-middleware-express": "^1.7.18",
         "iamport": "^0.3.4",
+        "jsonwebtoken": "^8.5.1",
         "mongodb": "^3.5.9",
         "node-fetch": "^2.6.0",
         "nodemon": "^2.0.4",
+        "passport": "^0.4.1",
         "path": "^0.12.7"
     }
 }

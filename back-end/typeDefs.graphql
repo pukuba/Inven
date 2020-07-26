@@ -34,5 +34,5 @@ type Mutation{
     join(id:String!, pw:String!, name:String!): String
     login(id:String!, pw:String!): String 
     logout: Boolean
-    create(title:String!, content:String!, type:Int!): Boolean
+    create(title:String!, content:String!, type:Int!): Int
 }

@@ -46,11 +46,7 @@
 >>
 >> 회원가입이 이루어지지 않은 경우 error message를 반환합니다.
 
-<<<<<<< HEAD
 ### 1-2 `login (id:String!, pw:String!): String`
-=======
-### 1-2 `login` (id:String!, pw:String!): String
->>>>>>> develop
 > 문자열을 반환합니다
 >> 정상적으로 로그인이 이루어진 경우 token값을 반환합니다.
 >>

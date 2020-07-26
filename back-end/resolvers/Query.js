@@ -1,6 +1,8 @@
 var Iamport = require('iamport');
 const fetch = require("node-fetch")
 const axios = require("axios")
+const jwt = require('jsonwebtoken');
+
 let iamport = {
     'imp_key': process.env.API_KEY,
     'imp_secret': process.env.API_SECRET_KEY
@@ -31,19 +33,21 @@ const getUser = async (db,token) => {
 }
 
 module.exports = {
-    token: async(parent, args,{ db,token }) => token != null,
     latest: async(parent, args,{ db, token}) => db.collection('post').find().sort({"date":-1}).toArray(),
     userPost: async(parent, args,{ db, token}) => db.collection('post').find({"author":args.author}).toArray(),
     buyMoney: async(parent, args,{ db, token}) => {
-		const user = await getUser(db,token)
-		if(user == null || token == null) return false 
+		let user 
+		try{
+			user = jwt.verify(token,process.env.JWT_SECRET)
+		} catch {
+			return 401
+		}
         const t0ken = await axios({
             url:`https://api.iamport.kr/users/getToken`,
             method:'post',
             headers:{ "Content-Type": "application/json" },
             data: iamport
 		})
-		console.log(user)
 		const buyInfo = await db.collection('payment').find().sort({"id":-1}).limit(1).toArray()
 		const dataUid = (!buyInfo.length ? 1 : buyInfo[0].id + 1)
 		let newDate = new Date(),time = newDate.toFormat('YYYY-MM-DD HH24:MI:SS')
@@ -67,6 +71,6 @@ module.exports = {
 			await db.collection('payment').insertMany(input)	
 			await db.collection('user').updateMany({name:user.name},{$set:{'money' : user.money + args.amount}})
 		}
-		return buy.status === 200
+		return buy.status
     }
 }
