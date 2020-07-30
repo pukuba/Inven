@@ -1,8 +1,13 @@
-const { ApolloServer } = require('apollo-server-express')
+const { ApolloServer,PubSub } = require('apollo-server-express')
 const express = require('express')
 const expressPlayground = require('graphql-playground-middleware-express').default
 const { readFileSync } = require('fs')
 const { MongoClient } = require('mongodb')
+const { createServer } = require('http')
+
+const depthLimit = require('graphql-depth-limit')
+const { createComplexityLimitRule } = require('graphql-validation-complexity')
+
 const path = require('path')
 require('dotenv').config()
 
@@ -11,6 +16,7 @@ const typeDefs = readFileSync('./typeDefs.graphql', 'utf-8')
 
 const start  = async() => {
     const app = express() 
+    const pubsub = new PubSub()
     const client = await MongoClient.connect(
         process.env.DB_HOST,
         {
@@ -23,16 +29,33 @@ const start  = async() => {
     const server = new ApolloServer({
         typeDefs,
         resolvers,
-        context: async({ req }) => {
-            const token = req.headers.authorization || ''
-            if(!token) return {db,token:null}
-            return {db,token}
+        validationRules: [
+            depthLimit(5),
+            createComplexityLimitRule(1000, {
+                onCost: cost => console.log('query cost: ', cost)
+            })
+        ],
+        context: async({ req, connection }) => {
+            const token = req ? req.headers.authorization : connection.context.Authorization
+            return {db, token, pubsub}
         }
     })
     server.applyMiddleware({ app })
-    app.use(express.static(path.join(__dirname,'models')))
+
     app.get('/playground',expressPlayground({ endpoint: '/graphql'}))
-    app.listen({ port : 4444}, ()=> console.log(`running server on http://localhost:4444${server.graphqlPath}`))
+    app.use(express.static(path.join(__dirname,'models')))
+
+
+    const httpServer = createServer(app)
+    server.installSubscriptionHandlers(httpServer)
+    
+    httpServer.timeout = 5000
+
+    httpServer.listen({ port : 4444}, () =>{
+        console.log(`GQL Server running at http://localhost:4444${server.graphqlPath}`)
+        console.log(`Subscriptions ready at ws://localhost:4444${server.subscriptionsPath}`)
+        }
+    )
 }
 
 start()

@@ -10,13 +10,17 @@
         "dotenv": "^8.2.0",
         "express": "^4.17.1",
         "fs": "0.0.1-security",
+        "graphql-depth-limit": "^1.1.0",
         "graphql-playground-middleware-express": "^1.7.18",
+        "graphql-subscriptions": "^1.1.0",
+        "graphql-validation-complexity": "^0.3.0",
         "iamport": "^0.3.4",
         "jsonwebtoken": "^8.5.1",
         "mongodb": "^3.5.9",
         "node-fetch": "^2.6.0",
         "nodemon": "^2.0.4",
         "passport": "^0.4.1",
-        "path": "^0.12.7"
+        "path": "^0.12.7",
+        "subscriptions-transport-ws": "^0.9.17"
     }
 }

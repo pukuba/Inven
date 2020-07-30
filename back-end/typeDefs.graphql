@@ -1,11 +1,17 @@
 type User{
     name: String
-    id: Int
+    id: String
     icon: String
     level: Int
     exp: Int
     money: Int
     latest: String
+}
+
+type Chat{
+    author: String
+    content: String
+    code: Int
 }
 
 type Icon{
@@ -15,6 +21,7 @@ type Icon{
 }
 
 type Post{
+    code: Int
     title: String
     author: String
     date: String
@@ -31,8 +38,15 @@ type Query{
 }
 
 type Mutation{
-    join(id:String!, pw:String!, name:String!): String
+    join(id:String!, pw:String!, name:String!): User!
     login(id:String!, pw:String!): String 
     logout: Boolean
-    create(title:String!, content:String!, type:Int!): Int
+    create(title:String!, content:String!, type:Int!): Post
+    chat(content:String, channel:Int!): Chat
+    postSubscription(name:String): Int
+}
+
+type Subscription{
+    newChat(channel:Int!): Chat
+    newPost(name:String): Post
 }

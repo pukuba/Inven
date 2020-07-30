@@ -10,14 +10,24 @@ const stringCheck = (x) => {
     return go == x.length
 } 
 
+const checkToken = (token) => {
+    let ret = 0;
+    try{
+        ret = jwt.verify(token,process.env.JWT_SECRET)
+    } catch {
+        return 401
+    }
+    return ret
+}
+
 module.exports = {
-    join: async(parent, args,{ db,token }) => {
+    join: async(parent, args,{ db,token,pubsub }) => {
         const id = await db.collection('user').findOne({id:args.id}), name = await db.collection('user').findOne({name:args.name})
         if(id != null || !stringCheck(args.id) || args.id.length < 6) return "id에 오류가 있습니다."
         if(name != null || !stringCheck(args.name) || args.name.length < 6) return "name에 오류가 있습니다."
         if(args.pw.length < 6) return "pw에 오류가 있습니다."
         let seed = Math.round((new Date().valueOf() * Math.random())) + "",newDate = new Date();
-        const user = [{
+        const newUser = {
             id:args.id,
             pw:makePw(args.pw,seed),
             name:args.name,
@@ -27,9 +37,9 @@ module.exports = {
             icon:1,
             seed:seed,
             latest: newDate.toFormat('YYYY-MM-DD HH24:MI:SS')
-        }]
-        await db.collection('user').insertMany(user)
-        return 200
+        }
+        await db.collection('user').insertOne(newUser)
+        return newUser
     },
 
     login: async(parent, args,{ db,token }) => {
@@ -56,26 +66,44 @@ module.exports = {
         return 401
     },
 
-    create: async(parent, args,{ db,token }) =>{
-        let info
-        try{
-            info = jwt.verify(token,process.env.JWT_SECRET)
-        } catch {
-            return 401
-        }
+    create: async(parent, args,{ db,token,pubsub }) =>{
+        const user = checkToken(token)
+        if(user === 401) return {code:401}
         const cnt = await db.collection('post').find().sort({"id":-1}).limit(1).toArray()
         let newDate = new Date()
-        let posts = [{
+        let newPost = {
             id: cnt[0] ? cnt[0].id+1 : 1,
             title: args.title,
             content: args.content,
-            author: info.name,
+            author: user.name,
             date: newDate.toFormat('YYYY-MM-DD HH24:MI:SS'),
             type: args.type
-        }]
-        await db.collection('post').insertMany(posts) 
-        return 200
+        }
+        await db.collection('post').insertOne(newPost) 
+        newPost.code = 200
+        const subUser = await db.collection('postSub').find({author:user.name}).toArray()
+        subUser.forEach(sub => pubsub.publish('post-added' + sub.name, { newPost }))
+        return newPost
     }, 
 
-    
+    chat: async(parent, args, { db, token, pubsub }) => {
+        const user = checkToken(token)
+        if(user === 401) return {code : 401}
+        let newChat = {
+            code : 200,
+            author : user.name,
+            content : args.content
+        }
+        pubsub.publish('chat-added' + args.channel,{ newChat })
+        return newChat
+    },
+
+    postSubscription: async(parent, args, {db, token, pubsub }) => {
+        const user = checkToken(token)
+        if(user === 401) return 401
+        const sub = await db.collection('postSub').findOne({name:user.name,author:args.name})
+        if(!sub) db.collection('postSub').insertOne({name:user.name,author:args.name})
+        else db.collection('postSub').delateOne({name:user.name,author:args.name})
+        return 200
+    }
 }
