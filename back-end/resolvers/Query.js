@@ -3,6 +3,8 @@ const fetch = require("node-fetch")
 const axios = require("axios")
 const jwt = require('jsonwebtoken');
 
+const inMemory = require('./Inmemory')
+
 let iamport = {
     'imp_key': process.env.API_KEY,
     'imp_secret': process.env.API_SECRET_KEY
@@ -23,16 +25,44 @@ const buyMoneyBody = (args,x) => {
 	}
 }
 
-const getUser = async (db,token) => {
-	const user = await db.collection('user').findOne({token:token})
-	if(!user) return null
-	return {
-		name : user.name,
-		money : user.money
-	}
+const checkToken = (token) => {
+    let ret = 0;
+    try{
+        ret = jwt.verify(token,process.env.JWT_SECRET)
+    } catch {
+        return 401
+    }
+    return ret
 }
 
+const status = (x,stat,k) => {
+	let check = 0,newDate = new Date(),time = newDate.toFormat('YYYY-MM-DD HH24:MI:SS'),ret = []
+	for(let [key, value] of inMemory.user){
+		if(k === -1){
+			ret.push(key)
+			continue
+		}
+		if(value > time) inMemory.user.delete(key)
+		if(key === x){
+			check = 1
+			if(value !== stat) inMemory.user.delete(key),inMemory.user.set(x,stat)
+		}
+	}
+	if(!check && !k) inMemory.user.set(x,stat)
+	if(k === -1) return ret
+}
 module.exports = {
+	token: async(parent, args, { db, token }) => {
+		const user = checkToken(token)
+		if(user.name) status(user.name,user.exp)
+		return user.name ? 200 : 401
+	},
+	online: async(parent, args, {db, token }) => {
+		return {
+			count: inMemory.user.size,
+			name: status(0,0,-1)
+		}
+	},
     latest: async(parent, args,{ db, token}) => db.collection('post').find().sort({"date":-1}).toArray(),
     userPost: async(parent, args,{ db, token}) => db.collection('post').find({"author":args.author}).toArray(),
     buyMoney: async(parent, args,{ db, token}) => {

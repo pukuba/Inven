@@ -1,7 +1,8 @@
+
 const crypto = require('crypto');
 require('date-utils')
 const jwt = require('jsonwebtoken');
-const passport = require('passport')
+
 const makePw = (x,y) => crypto.createHash("sha512").update(x + y).digest("hex");
 
 const stringCheck = (x) => {
