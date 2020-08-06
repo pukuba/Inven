@@ -31,8 +31,8 @@ const start  = async() => {
         typeDefs,
         resolvers,
         validationRules: [
-            depthLimit(5),
-            createComplexityLimitRule(1000, {
+            depthLimit(10),
+            createComplexityLimitRule(10000, {
                 onCost: cost => console.log('query cost: ', cost)
             })
         ],
@@ -44,13 +44,15 @@ const start  = async() => {
     server.applyMiddleware({ app })
 
     app.get('/playground',expressPlayground({ endpoint: '/graphql'}))
-    app.use(express.static(path.join(__dirname,'models')))
+    //app.use(express.static(path.join(__dirname,'models','photo')))
 
+    app.use('/image/',express.static(path.join(__dirname,'models/photo')))
+    app.use('/icon/',express.static(path.join(__dirname,'models/icons')))
 
     const httpServer = createServer(app)
     server.installSubscriptionHandlers(httpServer)
     
-    httpServer.timeout = 5000
+    httpServer.timeout = 10000
 
     httpServer.listen({ port : 4444}, () =>{
         console.log(`GQL Server running at http://localhost:4444${server.graphqlPath}`)

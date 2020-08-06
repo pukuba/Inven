@@ -1,7 +1,8 @@
-
 const crypto = require('crypto');
 require('date-utils')
 const jwt = require('jsonwebtoken');
+const { uploadStream } = require('../lib')
+const path = require('path')
 
 const makePw = (x,y) => crypto.createHash("sha512").update(x + y).digest("hex");
 
@@ -74,14 +75,21 @@ module.exports = {
         let newDate = new Date()
         let newPost = {
             id: cnt[0] ? cnt[0].id+1 : 1,
-            title: args.title,
-            content: args.content,
+            title: args.input.title,
+            content: args.input.content,
             author: user.name,
             date: newDate.toFormat('YYYY-MM-DD HH24:MI:SS'),
-            type: args.type
+            type: args.input.type
         }
-        await db.collection('post').insertOne(newPost) 
+        const { insertedId } = await db.collection('post').insertOne(newPost) 
         newPost.code = 200
+        if(args.input.file){
+            const image_path = path.join(__dirname,'../models/photo',`${insertedId}.jpg`)
+            const { createReadStream } = await args.input.file    
+            const stream = createReadStream(image_path);    
+            await uploadStream(stream, image_path) 
+      
+        }
         const subUser = await db.collection('postSub').find({author:user.name}).toArray()
         subUser.forEach(sub => pubsub.publish('post-added' + sub.name, { newPost }))
         return newPost
